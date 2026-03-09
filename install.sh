@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # =============================================================================
-#  INCEPT-SH — Installation Script
+#  INCEPT.sh — Installation Script
 #  https://github.com/ProMohanad/INCEPT.sh
 #
-#  Installs INCEPT-SH and all dependencies on Linux (Debian/Ubuntu, RHEL/Fedora,
+#  Installs INCEPT.sh and all dependencies on Linux (Debian/Ubuntu, RHEL/Fedora,
 #  Arch, openSUSE). Requires root or sudo access.
 #
 #  Usage:
@@ -17,7 +17,7 @@ set -euo pipefail
 # ── Constants ────────────────────────────────────────────────────────────────
 
 REPO_URL="https://github.com/ProMohanad/INCEPT.sh.git"
-HF_REPO="0Time/INCEPT-SH"
+HF_REPO="0Time/INCEPT.sh"
 MODEL_FILENAME="incept-sh.gguf"
 MODEL_URL="https://huggingface.co/${HF_REPO}/resolve/main/${MODEL_FILENAME}"
 INSTALL_DIR="/opt/incept-sh"
@@ -52,7 +52,7 @@ for arg in "$@"; do
             echo ""
             echo "  --prefix PATH   Installation prefix (default: /usr/local)"
             echo "  --no-model      Skip model download (place manually in ${MODEL_DIR})"
-            echo "  --uninstall     Remove INCEPT-SH from this system"
+            echo "  --uninstall     Remove INCEPT.sh from this system"
             exit 0
             ;;
         *) echo "Unknown option: $arg" >&2; exit 1 ;;
@@ -63,7 +63,7 @@ BIN_LINK="${OPT_PREFIX}/bin/incept"
 
 # ── Helpers ──────────────────────────────────────────────────────────────────
 
-log()     { echo -e "${BOLD}[INCEPT-SH]${RESET} $*" | tee -a "$LOG_FILE"; }
+log()     { echo -e "${BOLD}[INCEPT.sh]${RESET} $*" | tee -a "$LOG_FILE"; }
 success() { echo -e "${GREEN}${BOLD}  ✓${RESET}  $*" | tee -a "$LOG_FILE"; }
 warn()    { echo -e "${YELLOW}${BOLD}  ⚠${RESET}  $*" | tee -a "$LOG_FILE"; }
 error()   { echo -e "${RED}${BOLD}  ✗${RESET}  $*" | tee -a "$LOG_FILE" >&2; }
@@ -92,14 +92,14 @@ confirm() {
 # ── Uninstall ────────────────────────────────────────────────────────────────
 
 do_uninstall() {
-    log "Uninstalling INCEPT-SH..."
+    log "Uninstalling INCEPT.sh..."
 
     if [[ ! -d "$INSTALL_DIR" && ! -L "$BIN_LINK" ]]; then
-        warn "INCEPT-SH does not appear to be installed."
+        warn "INCEPT.sh does not appear to be installed."
         exit 0
     fi
 
-    confirm "This will remove INCEPT-SH from ${INSTALL_DIR} and ${BIN_LINK}. Continue?" || {
+    confirm "This will remove INCEPT.sh from ${INSTALL_DIR} and ${BIN_LINK}. Continue?" || {
         log "Uninstall cancelled."
         exit 0
     }
@@ -116,7 +116,7 @@ do_uninstall() {
         success "Removed installation: ${INSTALL_DIR}"
     fi
 
-    success "INCEPT-SH uninstalled."
+    success "INCEPT.sh uninstalled."
     exit 0
 }
 
@@ -160,14 +160,14 @@ fi
 ARCH="$(uname -m)"
 case "$ARCH" in
     x86_64|aarch64|arm64) success "Architecture: ${ARCH}" ;;
-    *) die "Unsupported architecture: ${ARCH}. INCEPT-SH requires x86_64 or aarch64." ;;
+    *) die "Unsupported architecture: ${ARCH}. INCEPT.sh requires x86_64 or aarch64." ;;
 esac
 
 # RAM check (warn if < 1.5GB free)
 if command -v free &>/dev/null; then
     FREE_MB=$(free -m | awk '/^Mem:/{print $7}')
     if [[ "$FREE_MB" -lt 1500 ]]; then
-        warn "Low available RAM: ${FREE_MB}MB. INCEPT-SH requires ~1GB free at runtime."
+        warn "Low available RAM: ${FREE_MB}MB. INCEPT.sh requires ~1GB free at runtime."
     else
         success "Available RAM: ${FREE_MB}MB"
     fi
@@ -360,7 +360,7 @@ fi
 
 # ── Clone / Update Repository ─────────────────────────────────────────────────
 
-step "Installing INCEPT-SH"
+step "Installing INCEPT.sh"
 
 if [[ -d "$INSTALL_DIR/.git" ]]; then
     log "Existing installation found — updating..."
@@ -370,7 +370,7 @@ if [[ -d "$INSTALL_DIR/.git" ]]; then
 else
     log "Cloning repository to ${INSTALL_DIR}..."
     $SUDO git clone --depth 1 "$REPO_URL" "$INSTALL_DIR" >> "$LOG_FILE" 2>&1 \
-        || die "Failed to clone INCEPT-SH repository."
+        || die "Failed to clone INCEPT.sh repository."
     success "Repository cloned."
 fi
 
@@ -396,9 +396,9 @@ log "Upgrading pip..."
 $SUDO "$VENV_PYTHON" -m pip install --upgrade pip --quiet >> "$LOG_FILE" 2>&1 \
     || warn "pip upgrade failed — continuing."
 
-log "Installing INCEPT-SH Python package..."
+log "Installing INCEPT.sh Python package..."
 $SUDO "$VENV_PIP" install --quiet -e "${INSTALL_DIR}[cli]" >> "$LOG_FILE" 2>&1 \
-    || die "Failed to install INCEPT-SH Python dependencies."
+    || die "Failed to install INCEPT.sh Python dependencies."
 
 success "Python dependencies installed."
 
@@ -422,7 +422,7 @@ elif [[ -f "$MODEL_PATH" ]]; then
 fi
 
 if [[ "$OPT_NO_MODEL" == false && ! -f "$MODEL_PATH" ]]; then
-    log "Downloading INCEPT-SH model (774MB) from HuggingFace..."
+    log "Downloading INCEPT.sh model (774MB) from HuggingFace..."
     log "URL: ${MODEL_URL}"
 
     # Use curl with resume support and progress
@@ -450,7 +450,7 @@ LAUNCHER="${INSTALL_DIR}/incept-launcher.sh"
 
 $SUDO tee "$LAUNCHER" > /dev/null << LAUNCHER
 #!/usr/bin/env bash
-# INCEPT-SH launcher — auto-generated by install.sh
+# INCEPT.sh launcher — auto-generated by install.sh
 exec "${VENV_DIR}/bin/python3" -m incept.cli.main "\$@"
 LAUNCHER
 
@@ -497,7 +497,7 @@ fi
 
 echo ""
 echo -e "${GREEN}${BOLD}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${RESET}"
-echo -e "${GREEN}${BOLD}  INCEPT-SH installed successfully.${RESET}"
+echo -e "${GREEN}${BOLD}  INCEPT.sh installed successfully.${RESET}"
 echo -e "${GREEN}${BOLD}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${RESET}"
 echo ""
 echo -e "  ${BOLD}Run:${RESET}       incept"

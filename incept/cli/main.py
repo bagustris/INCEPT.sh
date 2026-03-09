@@ -1,4 +1,4 @@
-"""CLI entry point for INCEPT-SH."""
+"""CLI entry point for INCEPT.sh."""
 
 from __future__ import annotations
 
@@ -83,7 +83,7 @@ def _oneshot(
     default=False,
     help="Enable model reasoning (chain-of-thought via <think> blocks)",
 )
-@click.version_option(__version__, prog_name="INCEPT-SH")
+@click.version_option(__version__, prog_name="INCEPT.sh")
 @click.pass_context
 def main(
     ctx: click.Context,
@@ -93,7 +93,7 @@ def main(
     minimal: bool,
     think: bool,
 ) -> None:
-    """🐧 INCEPT-SH — Offline Command Inference Engine.
+    """🐧 INCEPT.sh — Offline Command Inference Engine.
 
     \b
     Examples:

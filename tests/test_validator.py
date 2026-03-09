@@ -12,6 +12,7 @@ from incept.core.context import EnvironmentContext
 from incept.safety.validator import (
     RiskLevel,
     ValidationResult,
+    _path_in_command,
     check_banned_patterns,
     check_path_safety,
     check_sudo,
@@ -505,3 +506,33 @@ class TestSafeModePatterns:
         is_banned, reason = check_banned_patterns("chmod 666 secret.key", safe_mode=True)
         assert is_banned is True
         assert "chmod 666" in (reason or "")
+
+
+# ===========================================================================
+# _path_in_command — boundary-aware path matching
+# ===========================================================================
+
+
+class TestPathInCommand:
+    """The helper should match real path prefixes, not substrings."""
+
+    def test_exact_path(self) -> None:
+        assert _path_in_command("/etc", "rm -rf /etc") is True
+
+    def test_subpath(self) -> None:
+        assert _path_in_command("/etc", "cp file /etc/nginx/conf") is True
+
+    def test_false_positive_substring(self) -> None:
+        assert _path_in_command("/etc", "rm -rf /home/user/etcetera") is False
+
+    def test_path_at_end(self) -> None:
+        assert _path_in_command("/usr", "cp binary /usr") is True
+
+    def test_path_with_slash(self) -> None:
+        assert _path_in_command("/bin", "install tool /bin/custom") is True
+
+    def test_no_match(self) -> None:
+        assert _path_in_command("/etc", "ls /tmp") is False
+
+    def test_quoted_path(self) -> None:
+        assert _path_in_command("/etc", "cat '/etc/passwd'") is True

@@ -1,4 +1,4 @@
-"""INCEPT-SH banner and branding."""
+"""INCEPT.sh banner and branding."""
 
 from __future__ import annotations
 

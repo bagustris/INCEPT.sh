@@ -1,4 +1,4 @@
-"""Interactive CLI for INCEPT-SH."""
+"""Interactive CLI for INCEPT.sh."""
 
 from __future__ import annotations
 
@@ -27,7 +27,7 @@ console = Console()
 
 
 class InceptREPL:
-    """Interactive CLI for INCEPT-SH."""
+    """Interactive CLI for INCEPT.sh."""
 
     _MAX_HISTORY_TURNS = 6
 
@@ -196,7 +196,7 @@ class InceptREPL:
         while True:
             try:
                 text = session.prompt(
-                    HTML("<prompt>INCEPT-SH</prompt> <pound>❯</pound> "),
+                    HTML("<prompt>INCEPT.sh</prompt> <pound>❯</pound> "),
                 )
             except (EOFError, KeyboardInterrupt):
                 console.print("\n  [dim cyan]🐧 Goodbye![/dim cyan]\n")

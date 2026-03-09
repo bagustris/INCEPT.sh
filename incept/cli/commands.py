@@ -1,4 +1,4 @@
-"""Slash command registry for INCEPT-SH CLI."""
+"""Slash command registry for INCEPT.sh CLI."""
 
 from __future__ import annotations
 
@@ -19,8 +19,8 @@ class SlashCommandRegistry:
         self.register("/verbose", self._cmd_verbose, "Set verbosity: minimal|normal|detailed")
         self.register("/history", self._cmd_history, "Show query history")
         self.register("/clear", self._cmd_clear, "Clear the screen")
-        self.register("/exit", self._cmd_exit, "Exit INCEPT-SH")
-        self.register("/quit", self._cmd_quit, "Exit INCEPT-SH")
+        self.register("/exit", self._cmd_exit, "Exit INCEPT.sh")
+        self.register("/quit", self._cmd_quit, "Exit INCEPT.sh")
         self.register("/think", self._cmd_think, "Toggle model reasoning: /think on|off")
         self.register("/explain", self._cmd_explain, "Explain a command: /explain <cmd>")
         self.register("/plugin", self._cmd_plugin, "Shell plugin info")
@@ -48,7 +48,7 @@ class SlashCommandRegistry:
     def _cmd_help(self, args: str) -> str:
         lines = [
             "",
-            "  [bold cyan]🐧 INCEPT-SH CLI Commands[/bold cyan]",
+            "  [bold cyan]🐧 INCEPT.sh CLI Commands[/bold cyan]",
             "  [dim]━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[/dim]",
         ]
         for name, (_, desc) in self._commands.items():
