@@ -211,6 +211,12 @@ class InceptREPL:
                 continue
 
             last_resp = None
+
+            # Handle /clear before dispatching (os.system needed for real clear)
+            if text.strip().lower() == "/clear":
+                os.system("clear")
+                continue
+
             result = self.handle_input(text)
             if result == "__exit__":
                 console.print("\n  [dim cyan]🐧 Goodbye![/dim cyan]\n")
