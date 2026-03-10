@@ -37,6 +37,10 @@ INCEPT.sh ❯ append text at line 1000 of hello.txt
 
 ---
 
+![INCEPT.sh demo](docs/demo.gif)
+
+---
+
 ## Overview
 
 INCEPT.sh is a locally-deployed inference engine for Linux command generation. The model was trained via supervised fine-tuning on 79,264 ChatML examples spanning Ubuntu, Debian, RHEL, Arch, Fedora, and CentOS.
