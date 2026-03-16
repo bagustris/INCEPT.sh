@@ -82,7 +82,7 @@ cp incept-sh.gguf models/
 ```
 
 ```bash
-huggingface-cli download 0Time/INCEPT.sh \
+huggingface-cli download 0Time/INCEPT-SH \
   incept-sh.gguf --local-dir ./models
 ```
 
